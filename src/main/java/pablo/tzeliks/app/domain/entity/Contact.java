@@ -11,13 +11,13 @@ import java.util.UUID;
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private UUID id;
 
     @Column(name = "name", nullable = false, length = 122)
     private String name;
 
-    @Column(name = "number", nullable = false, unique = true, length = 13)
-    private String number;
+    @Column(name = "phone_number", nullable = false, unique = true, length = 13)
+    private String phoneNumber;
 }
