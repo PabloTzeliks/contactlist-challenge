@@ -1,0 +1,20 @@
+package pablo.tzeliks.app.domain.ports;
+
+import pablo.tzeliks.app.domain.entity.Contact;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface ContactRepositoryPort {
+
+    Contact save(Contact contact);
+
+    Optional<Contact> findById(UUID id);
+
+    Optional<Contact> findByNumber(String number);
+
+    List<Contact> findAll();
+
+    void deleteById(UUID id);
+}
