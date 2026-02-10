@@ -1,7 +1,9 @@
 package pablo.tzeliks.app.infrastructure.filter;
 
+import org.springframework.stereotype.Component;
 import pablo.tzeliks.app.domain.ports.PhoneNumberFilterPort;
 
+@Component
 public class PhoneNumberFilterAdapter implements PhoneNumberFilterPort {
 
     @Override
