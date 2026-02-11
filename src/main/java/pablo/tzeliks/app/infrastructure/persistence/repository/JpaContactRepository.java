@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface JpaContactRepository extends JpaRepository<Contact, UUID> {
 
-    Optional<Contact> findContactByNumber(String number);
+    Optional<Contact> findContactByPhoneNumber(String number);
 }

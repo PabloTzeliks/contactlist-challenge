@@ -12,7 +12,7 @@ public interface ContactRepositoryPort {
 
     Optional<Contact> findById(UUID id);
 
-    Optional<Contact> findByNumber(String number);
+    Optional<Contact> findByPhoneNumber(String number);
 
     List<Contact> findAll();
 

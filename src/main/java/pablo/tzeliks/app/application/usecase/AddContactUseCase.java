@@ -22,10 +22,12 @@ public class AddContactUseCase {
 
     public ContactResponse execute(CreateContactRequest request) {
 
-        UUID id = UUID.randomUUID();
+        Contact contact = mapper.toEntity(request);
 
-        Contact contact = mapper.toEntity(request, id);
+        contact.setId(UUID.randomUUID());
 
-        return mapper.toDto(repository.save(contact));
+        Contact saved = repository.save(contact);
+
+        return mapper.toDto(saved);
     }
 }

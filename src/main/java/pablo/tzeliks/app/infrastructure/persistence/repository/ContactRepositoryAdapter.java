@@ -28,8 +28,8 @@ public class ContactRepositoryAdapter implements ContactRepositoryPort {
     }
 
     @Override
-    public Optional<Contact> findByNumber(String number) {
-        return repository.findContactByNumber(number);
+    public Optional<Contact> findByPhoneNumber(String number) {
+        return repository.findContactByPhoneNumber(number);
     }
 
     @Override

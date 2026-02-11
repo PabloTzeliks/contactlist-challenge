@@ -28,10 +28,10 @@ public class ContactDtoMapper {
         );
     }
 
-    public Contact toEntity(CreateContactRequest request, UUID id) {
+    public Contact toEntity(CreateContactRequest request) {
 
         return new Contact(
-                id,
+                null,
                 request.name(),
                 phoneNumberFilter.minimize(request.phoneNumber()),
                 LocalDateTime.now()
