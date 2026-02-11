@@ -24,8 +24,6 @@ public class AddContactUseCase {
 
         Contact contact = mapper.toEntity(request);
 
-        contact.setId(UUID.randomUUID());
-
         Contact saved = repository.save(contact);
 
         return mapper.toDto(saved);
