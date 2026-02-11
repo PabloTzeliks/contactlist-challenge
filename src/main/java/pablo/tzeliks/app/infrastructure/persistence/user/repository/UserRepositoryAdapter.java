@@ -1,5 +1,6 @@
 package pablo.tzeliks.app.infrastructure.persistence.user.repository;
 
+import org.springframework.stereotype.Repository;
 import pablo.tzeliks.app.domain.user.model.User;
 import pablo.tzeliks.app.domain.user.ports.UserRepositoryPort;
 import pablo.tzeliks.app.infrastructure.persistence.user.entity.UserEntity;
@@ -7,6 +8,7 @@ import pablo.tzeliks.app.infrastructure.persistence.user.mapper.UserMapper;
 
 import java.util.Optional;
 
+@Repository
 public class UserRepositoryAdapter implements UserRepositoryPort {
 
     JpaUserRepository repository;
