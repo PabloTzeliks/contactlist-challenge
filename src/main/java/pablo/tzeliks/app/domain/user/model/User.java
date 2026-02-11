@@ -1,4 +1,4 @@
-package pablo.tzeliks.app.domain.user.domain;
+package pablo.tzeliks.app.domain.user.model;
 
 import java.time.Instant;
 import java.util.Collections;

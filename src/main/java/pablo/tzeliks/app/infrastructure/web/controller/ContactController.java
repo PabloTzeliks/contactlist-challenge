@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pablo.tzeliks.app.application.dto.ContactResponse;
-import pablo.tzeliks.app.application.dto.CreateContactRequest;
-import pablo.tzeliks.app.application.usecase.AddContactUseCase;
+import pablo.tzeliks.app.application.contact.dto.ContactResponse;
+import pablo.tzeliks.app.application.contact.dto.CreateContactRequest;
+import pablo.tzeliks.app.application.contact.usecase.AddContactUseCase;
 
 @RestController
 @RequestMapping("api")

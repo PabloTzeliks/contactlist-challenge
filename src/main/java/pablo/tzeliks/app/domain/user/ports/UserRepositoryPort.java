@@ -1,6 +1,6 @@
 package pablo.tzeliks.app.domain.user.ports;
 
-import pablo.tzeliks.app.domain.user.domain.User;
+import pablo.tzeliks.app.domain.user.model.User;
 
 import java.util.Optional;
 

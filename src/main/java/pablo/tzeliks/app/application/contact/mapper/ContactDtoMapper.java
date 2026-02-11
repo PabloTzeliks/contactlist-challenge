@@ -1,8 +1,8 @@
-package pablo.tzeliks.app.application.mapper;
+package pablo.tzeliks.app.application.contact.mapper;
 
 import org.springframework.stereotype.Component;
-import pablo.tzeliks.app.application.dto.ContactResponse;
-import pablo.tzeliks.app.application.dto.CreateContactRequest;
+import pablo.tzeliks.app.application.contact.dto.ContactResponse;
+import pablo.tzeliks.app.application.contact.dto.CreateContactRequest;
 import pablo.tzeliks.app.domain.contact.model.Contact;
 import pablo.tzeliks.app.domain.contact.ports.PhoneNumberFilterPort;
 

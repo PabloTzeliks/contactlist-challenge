@@ -3,7 +3,7 @@ package pablo.tzeliks.app.infrastructure.persistence.user.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.domain.Persistable;
-import pablo.tzeliks.app.domain.user.domain.Role;
+import pablo.tzeliks.app.domain.user.model.Role;
 
 import java.time.Instant;
 import java.util.HashSet;

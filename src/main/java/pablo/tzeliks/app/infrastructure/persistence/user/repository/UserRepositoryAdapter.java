@@ -1,6 +1,6 @@
 package pablo.tzeliks.app.infrastructure.persistence.user.repository;
 
-import pablo.tzeliks.app.domain.user.domain.User;
+import pablo.tzeliks.app.domain.user.model.User;
 import pablo.tzeliks.app.domain.user.ports.UserRepositoryPort;
 import pablo.tzeliks.app.infrastructure.persistence.user.entity.UserEntity;
 import pablo.tzeliks.app.infrastructure.persistence.user.mapper.UserMapper;

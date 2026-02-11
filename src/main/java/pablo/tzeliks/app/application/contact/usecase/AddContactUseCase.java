@@ -1,9 +1,9 @@
-package pablo.tzeliks.app.application.usecase;
+package pablo.tzeliks.app.application.contact.usecase;
 
 import org.springframework.stereotype.Service;
-import pablo.tzeliks.app.application.dto.ContactResponse;
-import pablo.tzeliks.app.application.dto.CreateContactRequest;
-import pablo.tzeliks.app.application.mapper.ContactDtoMapper;
+import pablo.tzeliks.app.application.contact.dto.ContactResponse;
+import pablo.tzeliks.app.application.contact.dto.CreateContactRequest;
+import pablo.tzeliks.app.application.contact.mapper.ContactDtoMapper;
 import pablo.tzeliks.app.domain.contact.model.Contact;
 import pablo.tzeliks.app.domain.contact.ports.ContactRepositoryPort;
 

@@ -1,7 +1,7 @@
 package pablo.tzeliks.app.infrastructure.persistence.user.mapper;
 
 import org.springframework.stereotype.Component;
-import pablo.tzeliks.app.domain.user.domain.User;
+import pablo.tzeliks.app.domain.user.model.User;
 import pablo.tzeliks.app.infrastructure.persistence.user.entity.UserEntity;
 
 import java.util.HashSet;
