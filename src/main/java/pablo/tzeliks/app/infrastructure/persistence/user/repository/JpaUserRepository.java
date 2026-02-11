@@ -7,7 +7,7 @@ import pablo.tzeliks.app.infrastructure.persistence.user.entity.UserEntity;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaUserRepository extends JpaRepository<User, UUID> {
+public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
 
     Optional<UserEntity> findByUsername(String username);
 
