@@ -44,8 +44,9 @@ public class ContactEntity implements Persistable<UUID> {
     @Deprecated
     public ContactEntity() { }
 
-    public ContactEntity(UUID id, String name, String phoneNumber, Instant createdAt, Instant updatedAt) {
+    public ContactEntity(UUID id, UUID ownerId, String name, String phoneNumber, Instant createdAt, Instant updatedAt) {
         this.id = id;
+        this.ownerId = ownerId;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.createdAt = createdAt;
