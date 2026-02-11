@@ -12,9 +12,9 @@ public interface ContactRepositoryPort {
 
     Optional<Contact> findById(UUID id);
 
-    Optional<Contact> findByPhoneNumber(String number);
+    List<Contact> findAllByOwnerId(UUID ownerId);
 
-    List<Contact> findAll();
+    Optional<Contact> findByIdAndOwnerId(UUID id, UUID ownerId);
 
-    void deleteById(UUID id);
+    boolean existsByOwnerIdAndPhoneNumber(UUID ownerId, String phoneNumber);
 }
