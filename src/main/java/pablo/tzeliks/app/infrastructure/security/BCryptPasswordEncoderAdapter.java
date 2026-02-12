@@ -1,8 +1,10 @@
 package pablo.tzeliks.app.infrastructure.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import pablo.tzeliks.app.domain.user.ports.PasswordEncoderPort;
 
+@Component
 public class BCryptPasswordEncoderAdapter implements PasswordEncoderPort {
 
     private final PasswordEncoder encoder;
