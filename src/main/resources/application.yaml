@@ -18,4 +18,4 @@ spring:
 api:
   security:
     token:
-      secret: secret
+      secret: ${JWT_SECRET:minha-chave-secreta-jwt==}
