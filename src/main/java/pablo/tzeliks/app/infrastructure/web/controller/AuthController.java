@@ -14,19 +14,19 @@ import pablo.tzeliks.app.application.user.dto.auth.LoginResponse;
 import pablo.tzeliks.app.application.user.dto.auth.RegisterRequest;
 import pablo.tzeliks.app.domain.user.ports.UserRepositoryPort;
 import pablo.tzeliks.app.infrastructure.security.CustomUserDetails;
-import pablo.tzeliks.app.infrastructure.security.TokenService;
+import pablo.tzeliks.app.infrastructure.security.TokenServiceAdapter;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final TokenService tokenService;
+    private final TokenServiceAdapter tokenService;
     private final UserRepositoryPort repositoryPort;
     private final PasswordEncoder passwordEncoder;
 
     public AuthController(AuthenticationManager authenticationManager,
-                          TokenService tokenService,
+                          TokenServiceAdapter tokenService,
                           UserRepositoryPort repositoryPort,
                           PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;

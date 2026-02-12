@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pablo.tzeliks.app.domain.user.model.User;
+import pablo.tzeliks.app.domain.user.ports.TokenServicePort;
 import pablo.tzeliks.app.infrastructure.exception.InfrastructureException;
 
 import java.time.Instant;
@@ -14,12 +15,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
-public class TokenService {
+public class TokenServiceAdapter implements TokenServicePort {
 
     @Value(value = "api.security.token.secret")
     private String secret;
 
-    public String generateToken(User user) {
+    public String generate(User user) {
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -34,7 +35,7 @@ public class TokenService {
         }
     }
 
-    public String validateToken(String token) {
+    public String validate(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
