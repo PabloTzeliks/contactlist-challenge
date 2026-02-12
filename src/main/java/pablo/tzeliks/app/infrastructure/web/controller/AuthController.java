@@ -50,6 +50,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<LoginResponse> register(@RequestBody @Valid RegisterRequest request)
+    public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest request) {
 
+        if (this.repositoryPort.existsByUsername(request.username())) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String encryptedPassword = passwordEncoder.encode(request.password());
+
+    }
 }
