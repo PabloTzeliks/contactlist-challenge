@@ -7,7 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pablo.tzeliks.app.domain.user.model.User;
-import pablo.tzeliks.app.domain.user.ports.TokenServicePort;
+import pablo.tzeliks.app.domain.user.ports.TokenLogicPort;
 import pablo.tzeliks.app.infrastructure.exception.InfrastructureException;
 
 import java.time.Instant;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
-public class TokenServiceAdapter implements TokenServicePort {
+public class TokenLogicAdapter implements TokenLogicPort {
 
     @Value(value = "api.security.token.secret")
     private String secret;

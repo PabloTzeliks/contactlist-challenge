@@ -1,11 +1,11 @@
-package pablo.tzeliks.app.infrastructure.filter;
+package pablo.tzeliks.app.infrastructure.logic;
 
 import org.springframework.stereotype.Component;
-import pablo.tzeliks.app.domain.contact.ports.PhoneNumberFilterPort;
+import pablo.tzeliks.app.domain.contact.ports.PhoneNumberLogicPort;
 import pablo.tzeliks.app.infrastructure.exception.FilterException;
 
 @Component
-public class PhoneNumberFilterAdapter implements PhoneNumberFilterPort {
+public class PhoneNumberLogicAdapter implements PhoneNumberLogicPort {
 
     public String minimize(String telefoneBruto) {
         if (telefoneBruto == null) {
@@ -21,6 +21,12 @@ public class PhoneNumberFilterAdapter implements PhoneNumberFilterPort {
         }
 
         return apenasNumeros;
+    }
+
+    @Override
+    public boolean validate(String phoneNumber) {
+
+        return phoneNumber.length() != 13;
     }
 
     public String maximize(String telefoneLimpo) {

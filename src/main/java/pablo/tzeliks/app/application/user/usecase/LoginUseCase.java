@@ -5,7 +5,7 @@ import pablo.tzeliks.app.application.user.dto.auth.LoginRequest;
 import pablo.tzeliks.app.application.user.dto.auth.LoginResponse;
 import pablo.tzeliks.app.domain.contact.exception.AuthenticationException;
 import pablo.tzeliks.app.domain.user.ports.PasswordEncoderPort;
-import pablo.tzeliks.app.domain.user.ports.TokenServicePort;
+import pablo.tzeliks.app.domain.user.ports.TokenLogicPort;
 import pablo.tzeliks.app.domain.user.ports.UserRepositoryPort;
 
 @Service
@@ -13,11 +13,11 @@ public class LoginUseCase {
 
     private final UserRepositoryPort repositoryPort;
     private final PasswordEncoderPort encoderPort;
-    private final TokenServicePort tokenPort;
+    private final TokenLogicPort tokenPort;
 
     public LoginUseCase(UserRepositoryPort repositoryPort,
                         PasswordEncoderPort encoderPort,
-                        TokenServicePort tokenPort) {
+                        TokenLogicPort tokenPort) {
         this.repositoryPort = repositoryPort;
         this.encoderPort = encoderPort;
         this.tokenPort = tokenPort;

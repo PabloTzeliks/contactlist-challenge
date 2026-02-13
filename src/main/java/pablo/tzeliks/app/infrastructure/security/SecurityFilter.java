@@ -16,10 +16,10 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private final TokenServiceAdapter tokenService;
+    private final TokenLogicAdapter tokenService;
     private final UserRepositoryPort repositoryPort;
 
-    public SecurityFilter(TokenServiceAdapter tokenService, UserRepositoryPort repositoryPort) {
+    public SecurityFilter(TokenLogicAdapter tokenService, UserRepositoryPort repositoryPort) {
         this.tokenService = tokenService;
         this.repositoryPort = repositoryPort;
     }
