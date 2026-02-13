@@ -14,18 +14,23 @@ import java.util.UUID;
 public class AddContactUseCase {
 
     private final ContactDtoMapper mapper;
-    private final ContactRepositoryPort repository;
+    private final ContactRepositoryPort repositoryPort;
     private final PhoneNumberLogicPort phoneLogicPort;
 
-    public AddContactUseCase(ContactDtoMapper mapper, ContactRepositoryPort repository, PhoneNumberLogicPort phoneLogicPort) {
+    public AddContactUseCase(ContactDtoMapper mapper,
+                             ContactRepositoryPort repositoryPort,
+                             PhoneNumberLogicPort phoneLogicPort) {
         this.mapper = mapper;
-        this.repository = repository;
+        this.repositoryPort = repositoryPort;
         this.phoneLogicPort = phoneLogicPort;
     }
 
     public ContactResponse execute(CreateContactRequest request, UUID ownerId) {
 
-        Contact newContact = ;
+        String validPhoneNumber = phoneLogicPort.minimize(request.phoneNumber());
 
+        Contact newContact = mapper.toEntity(request, validPhoneNumber, ownerId);
+
+        return mapper.toDto(repositoryPort.save(newContact));
     }
 }
