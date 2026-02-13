@@ -6,10 +6,10 @@ import jakarta.validation.constraints.NotNull;
 public record CreateContactRequest(
 
         @JsonProperty("name")
-        @NotNull
+        @NotNull(message = "Nome é obrigatório")
         String name,
 
         @JsonProperty("phone_number")
-        @NotNull
+        @NotNull(message = "Número de Telefone é obrigatório")
         String phoneNumber
 ) { }

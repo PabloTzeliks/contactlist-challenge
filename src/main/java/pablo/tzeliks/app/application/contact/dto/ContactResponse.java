@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,5 +25,9 @@ public record ContactResponse(
 
         @JsonProperty("created_at")
         @NotNull
-        LocalDateTime createdAt
+        Instant createdAt,
+
+        @JsonProperty("updated_at")
+        @NotNull
+        Instant updatedAt
 ) { }
