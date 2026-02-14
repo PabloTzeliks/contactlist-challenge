@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SearchUserContactsUseCase {
+public class SearchContactsUseCase {
 
     private final ContactDtoMapper mapper;
     private final ContactRepositoryPort repositoryPort;
 
-    public SearchUserContactsUseCase(ContactDtoMapper mapper, ContactRepositoryPort repositoryPort) {
+    public SearchContactsUseCase(ContactDtoMapper mapper, ContactRepositoryPort repositoryPort) {
         this.mapper = mapper;
         this.repositoryPort = repositoryPort;
     }
