@@ -14,7 +14,7 @@ import pablo.tzeliks.app.application.contact.usecase.AddContactUseCase;
 import pablo.tzeliks.app.domain.user.model.User;
 
 @RestController
-@RequestMapping("contacts")
+@RequestMapping("/contacts")
 public class ContactController {
 
     private AddContactUseCase addContact;
