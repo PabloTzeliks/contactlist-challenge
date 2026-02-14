@@ -30,7 +30,7 @@ public class ContactRepositoryAdapter implements ContactRepositoryPort {
             entity.markAsNew();
         }
 
-        return mapper.toDomain(entity);
+        return mapper.toDomain(repository.save(entity));
     }
 
     @Override
