@@ -17,7 +17,7 @@ import java.time.ZoneOffset;
 @Service
 public class TokenLogicAdapter implements TokenLogicPort {
 
-    @Value(value = "api.security.token.secret")
+    @Value(value = "${api.security.token.secret}")
     private String secret;
 
     public String generate(User user) {
