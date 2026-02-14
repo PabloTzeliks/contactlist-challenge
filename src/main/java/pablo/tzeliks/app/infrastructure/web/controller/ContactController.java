@@ -8,17 +8,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pablo.tzeliks.app.application.contact.dto.ContactResponse;
 import pablo.tzeliks.app.application.contact.dto.CreateContactRequest;
 import pablo.tzeliks.app.application.contact.usecase.AddContactUseCase;
+import pablo.tzeliks.app.application.contact.usecase.SearchUserContactsUseCase;
 import pablo.tzeliks.app.domain.user.model.User;
 import pablo.tzeliks.app.infrastructure.security.CustomUserDetails;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/contacts")
 public class ContactController {
 
-    private AddContactUseCase addContact;
+    private final AddContactUseCase addContact;
+    private final SearchUserContactsUseCase searchUserContacts;
 
-    public ContactController(AddContactUseCase addContact) {
+    public ContactController(AddContactUseCase addContact, SearchUserContactsUseCase searchUserContacts) {
         this.addContact = addContact;
+        this.searchUserContacts = searchUserContacts;
     }
 
     @PostMapping
@@ -31,5 +36,11 @@ public class ContactController {
         var uri = uriBuilder.path("/contacts/{id}").buildAndExpand(response.id()).toUri();
 
         return ResponseEntity.created(uri).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ContactResponse>> getAll(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        return ResponseEntity.ok().body(searchUserContacts.execute(userDetails.getDomainUser().getId()));
     }
 }
