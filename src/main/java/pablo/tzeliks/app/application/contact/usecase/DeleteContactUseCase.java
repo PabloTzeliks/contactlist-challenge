@@ -1,18 +1,18 @@
 package pablo.tzeliks.app.application.contact.usecase;
 
+import org.springframework.stereotype.Service;
 import pablo.tzeliks.app.application.contact.mapper.ContactDtoMapper;
 import pablo.tzeliks.app.domain.contact.ports.ContactRepositoryPort;
 import pablo.tzeliks.app.domain.exception.ResourceNotFoundException;
 
 import java.util.UUID;
 
-public class DeleteContact {
+@Service
+public class DeleteContactUseCase {
 
-    private final ContactDtoMapper mapper;
     private final ContactRepositoryPort repositoryPort;
 
-    public DeleteContact(ContactDtoMapper mapper, ContactRepositoryPort repositoryPort) {
-        this.mapper = mapper;
+    public DeleteContactUseCase(ContactRepositoryPort repositoryPort) {
         this.repositoryPort = repositoryPort;
     }
 

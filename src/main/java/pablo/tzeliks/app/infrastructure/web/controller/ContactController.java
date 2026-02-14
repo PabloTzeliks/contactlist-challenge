@@ -9,6 +9,7 @@ import pablo.tzeliks.app.application.contact.dto.ContactResponse;
 import pablo.tzeliks.app.application.contact.dto.CreateContactRequest;
 import pablo.tzeliks.app.application.contact.dto.UpdateContactRequest;
 import pablo.tzeliks.app.application.contact.usecase.AddContactUseCase;
+import pablo.tzeliks.app.application.contact.usecase.DeleteContactUseCase;
 import pablo.tzeliks.app.application.contact.usecase.SearchContactsUseCase;
 import pablo.tzeliks.app.application.contact.usecase.UpdateContactUseCase;
 import pablo.tzeliks.app.infrastructure.security.CustomUserDetails;
@@ -23,11 +24,16 @@ public class ContactController {
     private final AddContactUseCase addContact;
     private final SearchContactsUseCase searchUserContacts;
     private final UpdateContactUseCase updateContact;
+    private final DeleteContactUseCase deleteContactUseCase;
 
-    public ContactController(AddContactUseCase addContact, SearchContactsUseCase searchUserContacts, UpdateContactUseCase updateContact) {
+    public ContactController(AddContactUseCase addContact,
+                             SearchContactsUseCase searchUserContacts,
+                             UpdateContactUseCase updateContact,
+                             DeleteContactUseCase deleteContactUseCase) {
         this.addContact = addContact;
         this.searchUserContacts = searchUserContacts;
         this.updateContact = updateContact;
+        this.deleteContactUseCase = deleteContactUseCase;
     }
 
     @PostMapping
@@ -52,5 +58,14 @@ public class ContactController {
     public ResponseEntity<ContactResponse> update(@RequestBody UpdateContactRequest request, @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable UUID id) {
 
         return ResponseEntity.ok().body(updateContact.execute(request, id, userDetails.getDomainUser().getId()));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id,
+                                       @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        deleteContactUseCase.execute(id, userDetails.getDomainUser().getId());
+
+        return ResponseEntity.noContent().build();
     }
 }
