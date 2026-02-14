@@ -13,8 +13,8 @@ import java.util.UUID;
 @Repository
 public class ContactRepositoryAdapter implements ContactRepositoryPort {
 
-    JpaContactRepository repository;
-    ContactMapper mapper;
+    private final JpaContactRepository repository;
+    private final ContactMapper mapper;
 
     public ContactRepositoryAdapter(JpaContactRepository repository, ContactMapper mapper) {
         this.repository = repository;
