@@ -37,6 +37,144 @@ Na **v1.0.0**, a persistência é realizada através do **H2 Database** para fac
 
 ---
 
+## 📐 Design Arquitetural
+
+A **Networker API** implementa rigorosamente a **Arquitetura Hexagonal** (Ports & Adapters), garantindo total isolamento entre o núcleo de negócio e detalhes de infraestrutura. O diagrama abaixo ilustra a separação de responsabilidades e o fluxo de dados através das camadas.
+
+```mermaid
+graph TB
+    subgraph "🌐 Infrastructure Layer - Driving Adapters"
+        Client[👤 Client<br/>Postman/Browser]
+        AuthController[🔐 AuthController<br/>/auth/login, /auth/register]
+        ContactController[📇 ContactController<br/>/contacts]
+        SecurityFilter[🛡️ SecurityFilter<br/>JWT Validation]
+    end
+
+    subgraph "⬡ Application Core - Hexagon"
+        direction TB
+        
+        subgraph "Use Cases"
+            LoginUseCase[🔑 LoginUseCase<br/>Authentication Logic]
+            CreateUserUseCase[👤 CreateUserUseCase<br/>User Registration]
+            AddContactUseCase[➕ AddContactUseCase]
+            SearchContactsUseCase[🔍 SearchContactsUseCase]
+            UpdateContactUseCase[✏️ UpdateContactUseCase]
+            DeleteContactUseCase[🗑️ DeleteContactUseCase]
+        end
+        
+        subgraph "Domain Ports - Interfaces"
+            TokenLogicPort((TokenLogicPort))
+            UserRepoPort((UserRepositoryPort))
+            ContactRepoPort((ContactRepositoryPort))
+            PasswordPort((PasswordEncoderPort))
+            PhonePort((PhoneNumberLogicPort))
+        end
+        
+        subgraph "Domain Entities"
+            User[User Entity]
+            Contact[Contact Entity]
+        end
+    end
+
+    subgraph "🔧 Infrastructure Layer - Driven Adapters"
+        TokenLogicAdapter[🎫 TokenLogicAdapter<br/>JWT Generation]
+        UserRepoAdapter[💾 UserRepositoryAdapter]
+        ContactRepoAdapter[💾 ContactRepositoryAdapter]
+        BCryptAdapter[🔒 BCryptPasswordEncoder]
+        PhoneAdapter[📱 PhoneNumberLogicAdapter]
+        JpaUserRepo[(JpaUserRepository)]
+        JpaContactRepo[(JpaContactRepository)]
+        H2DB[("🗄️ H2 Database<br/>(In-Memory)")]
+    end
+
+    %% Authentication Flow (Login)
+    Client -->|"1️⃣ POST /auth/login<br/>{username, password}"| AuthController
+    AuthController -->|"2️⃣ Executes"| LoginUseCase
+    LoginUseCase -->|"3️⃣ Find User"| UserRepoPort
+    LoginUseCase -->|"4️⃣ Verify Password"| PasswordPort
+    LoginUseCase -->|"5️⃣ Generate Token"| TokenLogicPort
+    TokenLogicPort -.->|"Implemented by"| TokenLogicAdapter
+    TokenLogicAdapter -->|"6️⃣ Returns JWT"| LoginUseCase
+    LoginUseCase -->|"7️⃣ LoginResponse<br/>{token}"| Client
+
+    %% Registration Flow
+    Client -->|"POST /auth/register"| AuthController
+    AuthController --> CreateUserUseCase
+    CreateUserUseCase --> UserRepoPort
+    CreateUserUseCase --> PasswordPort
+
+    %% Protected Endpoints Flow (Contacts)
+    Client -->|"8️⃣ GET/POST/PUT/DELETE /contacts<br/>Authorization: Bearer {JWT}"| SecurityFilter
+    SecurityFilter -->|"9️⃣ Validate Token"| TokenLogicAdapter
+    SecurityFilter -->|"🔟 Load User"| UserRepoPort
+    SecurityFilter -->|"1️⃣1️⃣ Authenticated Request"| ContactController
+    ContactController -->|"1️⃣2️⃣ Execute Business Logic"| AddContactUseCase
+    ContactController --> SearchContactsUseCase
+    ContactController --> UpdateContactUseCase
+    ContactController --> DeleteContactUseCase
+
+    %% Use Cases interact with Domain
+    AddContactUseCase --> Contact
+    AddContactUseCase --> ContactRepoPort
+    AddContactUseCase --> PhonePort
+    SearchContactsUseCase --> ContactRepoPort
+    UpdateContactUseCase --> Contact
+    UpdateContactUseCase --> ContactRepoPort
+    UpdateContactUseCase --> PhonePort
+    DeleteContactUseCase --> ContactRepoPort
+
+    LoginUseCase --> User
+    CreateUserUseCase --> User
+
+    %% Ports to Adapters
+    UserRepoPort -.->|"Implemented by"| UserRepoAdapter
+    ContactRepoPort -.->|"Implemented by"| ContactRepoAdapter
+    PasswordPort -.->|"Implemented by"| BCryptAdapter
+    PhonePort -.->|"Implemented by"| PhoneAdapter
+
+    %% Adapters to Database
+    UserRepoAdapter --> JpaUserRepo
+    ContactRepoAdapter --> JpaContactRepo
+    JpaUserRepo --> H2DB
+    JpaContactRepo --> H2DB
+
+    %% Styling
+    classDef coreLayer fill:#FFE5E5,stroke:#FF6B6B,stroke-width:3px,color:#000
+    classDef infraLayer fill:#E3F2FD,stroke:#2196F3,stroke-width:2px,color:#000
+    classDef domainEntity fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px,color:#000
+    classDef port fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px,color:#000
+    
+    class LoginUseCase,CreateUserUseCase,AddContactUseCase,SearchContactsUseCase,UpdateContactUseCase,DeleteContactUseCase coreLayer
+    class Client,AuthController,ContactController,SecurityFilter,TokenLogicAdapter,UserRepoAdapter,ContactRepoAdapter,BCryptAdapter,PhoneAdapter,JpaUserRepo,JpaContactRepo,H2DB infraLayer
+    class User,Contact domainEntity
+    class TokenLogicPort,UserRepoPort,ContactRepoPort,PasswordPort,PhonePort port
+```
+
+### 🔑 Fluxo de Autenticação JWT
+
+1. **Login (Geração do Token)**:
+   - Cliente envia credenciais para `POST /auth/login`
+   - `LoginUseCase` valida as credenciais através das portas `UserRepositoryPort` e `PasswordEncoderPort`
+   - `TokenLogicPort` (implementado por `TokenLogicAdapter`) gera o JWT com claims do usuário
+   - Token é retornado ao cliente na resposta
+
+2. **Acesso a Rotas Protegidas** (ex: `/contacts`):
+   - Cliente envia requisição com header `Authorization: Bearer {JWT}`
+   - `SecurityFilter` intercepta a requisição **antes** de chegar ao controller
+   - Token é validado usando `TokenLogicAdapter`
+   - Usuário é carregado do banco via `UserRepositoryPort`
+   - Contexto de segurança é populado com o usuário autenticado
+   - Requisição prossegue para o `ContactController` com usuário autenticado
+
+### 🎯 Princípios Arquiteturais Implementados
+
+- **Dependency Inversion**: Infraestrutura depende de abstrações do domínio (Ports), nunca o contrário
+- **Separation of Concerns**: Cada camada tem responsabilidade única e bem definida
+- **Testability**: Núcleo de negócio pode ser testado sem dependências de infraestrutura
+- **Flexibility**: Fácil substituição de adapters (ex: trocar H2 por PostgreSQL ou MongoDB)
+
+---
+
 ## 🔌 Endpoints
 
 ### Autenticação
