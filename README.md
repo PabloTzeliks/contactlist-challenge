@@ -52,7 +52,6 @@ Na **v1.0.0**, a persistência é realizada através do **H2 Database** para fac
 |--------|----------|-----------|
 | POST | `/contacts` | Cria um novo contato |
 | GET | `/contacts` | Lista todos os contatos do usuário autenticado |
-| GET | `/contacts/{id}` | Retorna um contato específico por ID |
 | PUT | `/contacts/{id}` | Atualiza um contato existente |
 | DELETE | `/contacts/{id}` | Remove um contato |
 
@@ -149,7 +148,7 @@ Para acessar o console do H2 Database durante o desenvolvimento:
 
 ```
 URL: http://localhost:8080/h2-console
-JDBC URL: jdbc:h2:mem:testdb
+JDBC URL: jdbc:h2:mem:challenge_db
 Username: sa
 Password: 
 ```
@@ -186,17 +185,41 @@ java -jar target/*.jar
 
 ```
 src/main/java/pablo/tzeliks/app/
-├── domain/              # Núcleo - Regras de Negócio
-│   ├── contact/         # Entidades e portas de Contact
-│   └── user/            # Entidades e portas de User
-├── application/         # Casos de Uso
-│   ├── contact/         # Use cases de Contact
-│   └── user/            # Use cases de User
-└── infrastructure/      # Adapters e Frameworks
-    ├── persistence/     # Adapters de persistência (H2)
-    ├── security/        # Configuração JWT e Spring Security
-    ├── web/             # Controllers REST
-    └── config/          # Configurações gerais
+├── application/                     # Camada de Aplicação (Orquestração)
+│   ├── contact/                     # Casos de uso de Contatos
+│   │   ├── dto/                     # Data Transfer Objects (Request/Response)
+│   │   ├── mapper/                  # Conversores (Entity <-> DTO)
+│   │   └── usecase/                 # Classes de Regra de Negócio (Services)
+│   └── user/                        # Casos de uso de Usuários
+│       ├── dto/
+│       │   └── auth/                # DTOs específicos de Autenticação (Login/Register)
+│       └── usecase/                 # Regras de negócio de Usuário (Create, Login)
+│
+├── domain/                          # Camada de Domínio (Núcleo)
+│   ├── contact/
+│   │   ├── model/                   # Entidade Contact
+│   │   └── ports/                   # Interfaces (Repository e Logic Ports)
+│   ├── exception/                   # Exceções do Domínio
+│   │   └── generics/                # Exceções genéricas (BusinessRule, Authentication)
+│   └── user/
+│       ├── model/                   # Entidades User e Role
+│       └── ports/                   # Interfaces (PasswordEncoder, TokenLogic, Repo)
+│
+├── infrastructure/                  # Camada de Infraestrutura (Detalhes técnicos)
+│   ├── config/                      # Configurações (SwaggerConfig, etc.)
+│   ├── exception/                   # Exceções de Infraestrutura e Filtros
+│   ├── logic/                       # Implementações de lógica (ex: PhoneNumberLogicAdapter)
+│   ├── persistence/                 # Implementações de Repositórios (Spring Data JPA)
+│   │   ├── contact/
+│   │   └── user/
+│   ├── security/                    # Segurança (JWT, SecurityConfig, UserDetails)
+│   └── web/
+│       └── controller/              # Controladores REST (Endpoints)
+│
+├── Application.java                 # Classe principal (Main)
+│
+└── resources/
+    └── application.yaml             # Arquivo de configuração
 ```
 
 ---
